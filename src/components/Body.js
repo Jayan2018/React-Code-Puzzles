@@ -10,14 +10,14 @@ class Body extends Component {
 
     constructor(props) {
         super(props);
-
         this.state = {
             value: '',
             shape: 'null',
             width: 0,
             height: 0,
             radius: 0,
-            side: 0
+            side: 0,
+            error: ''
         };
 
         this.handleChange = this.handleChange.bind(this);
@@ -43,9 +43,6 @@ class Body extends Component {
     }
 
     renderShape() {
-        console.log(this.state.shape);
-        console.log(this.state.width,'this.state.width');
-
         if (this.state.shape === 'rectangle' || this.state.shape === "square") {
             return < ColoredRect
                 width={this.state.width}
@@ -57,11 +54,9 @@ class Body extends Component {
             return <ColoredTriangle
                 radius={this.state.radius}
                 side={this.state.side}/>
-        } else if (this.state.shape === 'null') {
-            return <Text/>
         } else {
             return <Text
-                text="* Please check the spelling"
+                text={this.state.error}
                 fontSize={30}
                 fill={'red'}/>
         }
@@ -69,11 +64,22 @@ class Body extends Component {
 
     createShape(value) {
         if (value) {
+            this.clearState(); // remove previous values in state
             PostData(value.trim()).then((result) => {
                 let responseJSON = result;
                 console.log(responseJSON);
                 if (responseJSON) {
-                    this.handleShape(responseJSON)
+                    if (responseJSON.status === "sucess") {
+                        this.setState({
+                            shape: responseJSON.shape,
+                            width: responseJSON.width,
+                            height: responseJSON.height,
+                            radius: responseJSON.radius,
+                            side: responseJSON.side
+                        });
+                    } else if (responseJSON.status === "failed") {
+                        this.setState({error: responseJSON.error})
+                    }
                 } else {
                     console.log("Error!!")
                 }
@@ -83,27 +89,23 @@ class Body extends Component {
         }
     }
 
-    handleShape(responseJSON) {
-        let valueArray = [];
-        if (responseJSON.shape === 'rectangle') {
-            this.setState({width: valueArray[7], height: valueArray[12]});
-        } else if (responseJSON.shape === 'square') {
-            this.setState({shape: responseJSON.shape, width: responseJSON.width, height: responseJSON.height});
-        } else if (responseJSON.shape === 'circle') {
-            this.setState({radius: responseJSON.radius, shape: responseJSON.shape});
-        } else if (responseJSON.shape === 'octagon') {
-            this.setState({radius: valueArray[8], side: 8});
-        } else if (responseJSON.shape === 'isosceles') {
-            this.setState({radius: valueArray[8], side: 3});
-        }
-    }
+    clearState() {
+        this.setState({
+            shape: 'null',
+            width: 0,
+            height: 0,
+            radius: 0,
+            side: 0,
+            error: ''
+        });
+    };
 
     render() {
         return (
             <div>
                 <p className="App-intro"><h3>Create your own shapes with your language</h3></p>
                 <input type="text" value={this.state.value} onChange={this.handleChange}
-                       placeholder={"Draw a circle with a radius of 100"}/>
+                       placeholder={"Eg: Draw a circle with a radius of 100"}/>
                 <button className="btn btn_add" onClick={() => this.createShape(this.state.value)}>Create Shape</button>
                 {this.displayShape()}
             </div>

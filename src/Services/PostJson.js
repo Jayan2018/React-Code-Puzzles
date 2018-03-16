@@ -7,12 +7,12 @@ export function PostData(userData) {
 
     const requestOptions = {
         method: 'POST',
-        // headers: {
-        //     Accept: 'application/json',
-        //     'Content-Type': 'application/json',
-        // },
-        // mode: 'cors',
-        // cache: 'default',
+        headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json',
+        },
+        mode: 'cors',
+        cache: 'default',
         body: JSON.stringify(myData)
     };
 
