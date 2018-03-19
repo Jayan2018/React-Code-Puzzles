@@ -31,7 +31,7 @@ class Body extends Component {
     displayShape() {
         let forms = [];
         forms.push(
-            <div key={forms.length}>
+            <div className="drawing_space" key={forms.length}>
                 <Stage width={window.innerWidth} height={window.innerHeight}>
                     <Layer>
                         {this.renderShape()}

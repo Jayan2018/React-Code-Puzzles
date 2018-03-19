@@ -8,7 +8,7 @@
 
 .btn_add {
     color: rgb(0, 0, 0);
-    border-color: rgb(0, 0, 0);
+    border: 2px solid rgb(0, 0, 0);
     background-color: transparent;
 }
 .btn_add:hover{
@@ -16,7 +16,7 @@
 }
 
 input {
-    width: 60%;
+    width: 50%;
     border: 2px solid rgb(0, 0, 0);
     border-radius: 2px;
     margin-right: 2px;
@@ -28,4 +28,8 @@ input:focus {
     outline: none;
     border: 2px solid rgb(40, 92, 168);
     border-radius: 2px;
+}
+
+.drawing_space {
+    margin:40px;
 }
