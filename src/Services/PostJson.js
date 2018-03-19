@@ -1,5 +1,5 @@
 export function PostData(userData) {
-    let BaseUrl = 'http://localhost:8080/puzzleApp/hello.php';
+    let BaseUrl = 'http://localhost:8080/puzzleApp/code-puzzle.php';
 
     const myData = {
         value: userData
